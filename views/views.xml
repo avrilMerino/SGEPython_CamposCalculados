@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <!-- =========================================================
+         VISTA FORMULARIO: heredamos el formulario base de contactos
+         ========================================================= -->
+    <record id="res_partner_zodiaco_form" model="ir.ui.view">
+      <!-- nombre técnico de esta vista (solo identificativo) -->
+      <field name="name">res.partner.form.inherit.zodiaco</field>
+
+      <!-- el modelo al que pertenece la vista -->
+      <field name="model">res.partner</field>
+
+      <!-- heredamos la vista original de contactos (form) -->
+      <field name="inherit_id" ref="base.view_partner_form"/>
+
+      <!-- aquí indicamos QUÉ parte del XML original modificamos -->
+      <field name="arch" type="xml">
+
+        <!-- buscamos el notebook (las pestañas) del formulario
+             y metemos una pestaña nueva dentro -->
+        <xpath expr="//notebook" position="inside">
+          <page string="Zodiaco">
+            <group>
+              <!-- campo fecha de nacimiento (nuevo) -->
+              <field name="cumple" string="Fecha de nacimiento"/>
+
+              <!-- campos calculados: los mostramos en solo lectura -->
+              <field name="edad" readonly="1"/>
+              <field name="signo" readonly="1"/>
+            </group>
+          </page>
+        </xpath>
+
+      </field>
+    </record>
+
+
+    <!-- =========================================================
+         VISTA LISTA: heredamos la lista base de contactos
+         y añadimos el signo como columna
+         ========================================================= -->
+    <record id="res_partner_zodiaco_list" model="ir.ui.view">
+      <field name="name">res.partner.list.inherit.zodiaco</field>
+      <field name="model">res.partner</field>
+
+      <!-- heredamos la vista lista base (en Odoo 18 suele ser list) -->
+      <field name="inherit_id" ref="base.view_partner_tree"/>
+
+      <field name="arch" type="xml">
+        <!-- después del nombre mostrado, metemos la columna signo -->
+        <xpath expr="//tree/field[@name='display_name']" position="after">
+          <field name="signo" string="Signo"/>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>
